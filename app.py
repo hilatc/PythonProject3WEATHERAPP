@@ -2,6 +2,15 @@ import streamlit as st
 import requests
 import pandas as pd
 import plotly.express as px
+from datetime import datetime, timezone, timedelta
+def format_city_time(city_timezone_seconds: int) -> str:
+    """
+    OpenWeather returns timezone offset from UTC in seconds.
+    Example: Israel is usually +7200 seconds (UTC+2), summer +10800 (UTC+3).
+    """
+    city_tz = timezone(timedelta(seconds=city_timezone_seconds))
+    now_city = datetime.now(city_tz)
+    return now_city.strftime("%A, %d %b %Y • %H:%M")
 
 st.title("🌤️ Weather Checker")
 
@@ -41,6 +50,13 @@ if city:
         temp = data["main"]["temp"]
         desc = data["weather"][0]["description"]
         humidity = data["main"]["humidity"]
+        now_local = datetime.now().strftime("%A, %d %b %Y • %H:%M")
+        city_time = format_city_time(data["timezone"])
+
+        st.info(
+            f"🧍 Your local time: **{now_local}**\n\n"
+            f"🌍 Local time in {data['name']}: **{city_time}**"
+        )
 
         st.write(f"🌡️ Temperature: {temp}°C")
         st.write(f"☁️ Weather: {desc}")
