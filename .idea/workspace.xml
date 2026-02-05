@@ -2,8 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="40b20d32-dfa7-4dbc-bff0-1a2ea6b8d8aa" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/extras_api.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/favorites.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marine_api.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scoring.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spots.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/surfers_api.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/weather_api.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,10 +28,11 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 8
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="396xiE7W4ccfFMOUOSuGvceIhpn" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -44,6 +54,7 @@
     "ai.playground.ignore.import.keys.banner.in.settings": "true",
     "git-widget-placeholder": "master",
     "last_opened_file_path": "C:/Users/user/PycharmProjects/PythonProject3WEATHERAPP",
+    "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -67,7 +78,10 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1770030447140</updated>
-      <workItem from="1770030448280" duration="9144000" />
+      <workItem from="1770030448280" duration="9992000" />
+      <workItem from="1770125714668" duration="76000" />
+      <workItem from="1770221859453" duration="1529000" />
+      <workItem from="1770287521664" duration="11463000" />
     </task>
     <servers />
   </component>
