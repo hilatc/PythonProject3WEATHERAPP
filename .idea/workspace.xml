@@ -2,17 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="40b20d32-dfa7-4dbc-bff0-1a2ea6b8d8aa" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/extras_api.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/favorites.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/marine_api.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoring.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/spots.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/surfers_api.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/weather_api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,7 +71,7 @@
       <workItem from="1770030448280" duration="9992000" />
       <workItem from="1770125714668" duration="76000" />
       <workItem from="1770221859453" duration="1529000" />
-      <workItem from="1770287521664" duration="11463000" />
+      <workItem from="1770287521664" duration="12067000" />
     </task>
     <servers />
   </component>
