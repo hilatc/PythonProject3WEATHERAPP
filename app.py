@@ -32,6 +32,7 @@ level = st.sidebar.selectbox("Surf level", ["Beginner", "Intermediate", "Advance
 st.sidebar.divider()
 st.sidebar.caption(f"🇮🇱 Israel time now: {israel_time_now()}")
 
+
 # -----------------------------
 # Helpers
 # -----------------------------
@@ -117,8 +118,9 @@ if mode == "Surf Spots (Map)":
     df_map["is_selected"] = df_map["name"].eq(selected_name)
     df_map["is_fav"] = df_map["name"].isin(favs)
 
-    # Base dots: selected red, others blue
-    df_map["base_color"] = df_map["is_selected"].apply(lambda x: [255, 0, 0, 220] if x else [0, 120, 255, 170])
+    df_map["base_color"] = df_map["is_selected"].apply(
+        lambda x: [255, 0, 0, 220] if x else [0, 120, 255, 170]
+    )
     df_fav = df_map[df_map["is_fav"]].copy()
 
     layer_all = pdk.Layer(
@@ -186,6 +188,7 @@ if lat is None or lon is None:
     st.info("Select a surf spot or search a city to load data.")
     st.stop()
 
+
 # -----------------------------
 # Fetch data
 # -----------------------------
@@ -206,11 +209,25 @@ except Exception as e:
     st.caption(str(e))
     st.stop()
 
+
+# -----------------------------
+# Marine + scoring (MOVED UP so marine_wind_now exists before UI uses it)
+# -----------------------------
+df_marine = marine_to_df(marine, beach_facing_deg)
+if df_marine.empty:
+    st.warning("No marine data available for this location.")
+    st.stop()
+
+df_scored = add_scores(df_marine, level=level)
+marine_wind_now = df_scored.iloc[0]["wind_speed"] if not df_scored.empty else "—"
+
+
 # -----------------------------
 # Time info
 # -----------------------------
 city_time = time_from_utc_offset(int(current["timezone"]))
 st.info(f"🕒 🇮🇱 Israel time: **{israel_time_now()}**    |    🌍 Local time here: **{city_time}**")
+
 
 # -----------------------------
 # Dashboard overview (wide, with emojis)
@@ -238,18 +255,16 @@ cloud_now = (hourly.get("cloud_cover") or [None])[0]  # %
 prec_now = (hourly.get("precipitation") or [None])[0]  # mm
 t2m_now = (hourly.get("temperature_2m") or [None])[0]  # °C
 
-# row 1: essentials
-r1 = st.columns(6)
+r1 = st.columns(7)
 r1[0].image(f"https://openweathermap.org/img/wn/{icon}@2x.png", width=70)
 r1[0].caption(f"**{desc}**")
-
 r1[1].metric("🌡️ Temp", f"{current['main']['temp']}{temp_sym}")
 r1[2].metric("🤒 Feels like", f"{current['main']['feels_like']}{temp_sym}")
 r1[3].metric("💧 Humidity", f"{current['main']['humidity']}%")
 r1[4].metric("💨 Wind", f"{wind_speed_now} {wind_sym}")
 r1[5].metric("🧭 Wind dir", f"{wind_dir_now}")
+r1[6].metric("🌬️ Marine wind", f"{marine_wind_now} {wind_sym}" if marine_wind_now != "—" else "—")
 
-# row 2: extras
 r2 = st.columns(6)
 r2[0].metric("📏 2m Temp", f"{t2m_now}°C" if t2m_now is not None else "—")
 r2[1].metric("☀️ UV", f"{uv_now}" if uv_now is not None else "—")
@@ -260,15 +275,6 @@ r2[5].metric("🌧️ Precip", f"{prec_now} mm" if prec_now is not None else "�
 
 st.caption(f"🌅 Sunrise: {sunrise}   |   🌇 Sunset: {sunset}")
 
-# -----------------------------
-# Marine + scoring
-# -----------------------------
-df_marine = marine_to_df(marine, beach_facing_deg)
-if df_marine.empty:
-    st.warning("No marine data available for this location.")
-    st.stop()
-
-df_scored = add_scores(df_marine, level=level)
 
 # -----------------------------
 # Tabs
@@ -302,8 +308,13 @@ with tab3:
     show["relation"] = show["wind_relation_color"] + " " + show["wind_relation"]
     st.dataframe(show, use_container_width=True)
 
+
+# -----------------------------
+# Extra section (bottom): Top surfers
+# -----------------------------
 st.divider()
-st.subheader("🏆 Top Surfers (Legends) — powered by Wikipedia")
+st.subheader("🏆 Surf Legends (extra) — powered by Wikipedia")
+
 
 @st.cache_data(ttl=86400)
 def fetch_surfers_cards():
@@ -314,14 +325,17 @@ def fetch_surfers_cards():
         if isinstance(data.get("thumbnail"), dict):
             thumb = data["thumbnail"].get("source")
 
-        cards.append({
-            "name": s["name"],
-            "known_for": s["known_for"],
-            "extract": data.get("extract", "No summary available."),
-            "thumb": thumb,
-            "wiki_url": data.get("content_urls", {}).get("desktop", {}).get("page"),
-        })
+        cards.append(
+            {
+                "name": s["name"],
+                "known_for": s["known_for"],
+                "extract": data.get("extract", "No summary available."),
+                "thumb": thumb,
+                "wiki_url": data.get("content_urls", {}).get("desktop", {}).get("page"),
+            }
+        )
     return cards
+
 
 try:
     cards = fetch_surfers_cards()
@@ -334,7 +348,11 @@ try:
             st.caption(card["known_for"])
             st.write(card["extract"])
             if card["wiki_url"]:
-                st.link_button("Open Wikipedia", card["wiki_url"])
+                # If link_button is not supported in older Streamlit, replace with markdown link
+                try:
+                    st.link_button("Open Wikipedia", card["wiki_url"])
+                except Exception:
+                    st.markdown(f"[Open Wikipedia]({card['wiki_url']})")
 except SurferAPIError as e:
     st.warning("Could not load surfers info from Wikipedia right now.")
     st.caption(str(e))
